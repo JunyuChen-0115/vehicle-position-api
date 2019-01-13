@@ -64,4 +64,10 @@ public class VehiclePosition {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return String.format("{ @id = %1$s, vehicleName = %2$s, latitude = %3$s, longitude = %4$s, timestamp = %5$s }",
+                getId(), getVehicleName(), getLatitude(), getLongitude(), getTimestamp());
+    }
 }
