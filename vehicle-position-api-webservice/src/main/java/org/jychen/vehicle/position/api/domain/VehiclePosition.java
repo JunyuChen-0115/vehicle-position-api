@@ -1,16 +1,28 @@
-package org.jychen.vehicle.position.api.integration.dto;
+package org.jychen.vehicle.position.api.domain;
 
-import java.io.Serializable;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
+
 import java.sql.Timestamp;
 
-public class VehiclePositionDTO implements Serializable {
+@Table
+public class VehiclePosition {
 
-    private static final long serialVersionUID = 7325441071841728930L;
-
+    @PrimaryKeyColumn(ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private Integer id;
+
+    @PrimaryKeyColumn(ordinal = 1, type = PrimaryKeyType.CLUSTERED)
     private String vehicleName;
+
+    @Column
     private Double latitude;
+
+    @Column
     private Double longitude;
+
+    @Column
     private Timestamp timestamp;
 
     public Integer getId() {

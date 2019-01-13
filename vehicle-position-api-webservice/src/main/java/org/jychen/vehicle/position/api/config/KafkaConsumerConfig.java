@@ -15,7 +15,6 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 
 @EnableKafka
 @Configuration
-@ComponentScan(basePackages = "org.jychen.vehicle.position.api.messaging")
 public class KafkaConsumerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
