@@ -5,8 +5,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>vehicle-position-api-webservice</module>
         <module>vehicle-position-api-integration</module>
+        <module>vehicle-position-api-webservice</module>
     </modules>
 
     <parent>
@@ -26,13 +26,6 @@
         <java.version>1.8</java.version>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+
 
 </project>

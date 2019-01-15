@@ -35,7 +35,8 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 
-        return new DefaultKafkaConsumerFactory<String, VehiclePositionDTO>(props, new StringDeserializer(), new JsonDeserializer(VehiclePositionDTO.class));
+        return new DefaultKafkaConsumerFactory<String, VehiclePositionDTO>(props, new StringDeserializer(),
+                new JsonDeserializer<VehiclePositionDTO>(VehiclePositionDTO.class));
     }
 
     @Bean

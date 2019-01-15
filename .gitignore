@@ -1,6 +1,7 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 zk-single-kafka-single/
+.DS_Store
 
 ### STS ###
 .apt_generated
