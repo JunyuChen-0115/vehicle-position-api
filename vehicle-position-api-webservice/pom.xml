@@ -69,8 +69,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>org.jychen.vehicle.position.api.VehiclePositionApiApplication</mainClass>
-                    <skip>false</skip>
-                    <fork>true</fork>
                 </configuration>
                 <executions>
                     <execution>
