@@ -7,13 +7,13 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.sql.Timestamp;
 
-@Table
+@Table("vehicle_position")
 public class VehiclePosition {
 
     @PrimaryKeyColumn(ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private Integer id;
 
-    @PrimaryKeyColumn(ordinal = 1, type = PrimaryKeyType.CLUSTERED)
+    @PrimaryKeyColumn(ordinal = 1, type = PrimaryKeyType.CLUSTERED, name = "vehicle_name")
     private String vehicleName;
 
     @Column
