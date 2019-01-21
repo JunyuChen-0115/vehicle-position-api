@@ -5,13 +5,14 @@ import mockit.Injectable;
 import mockit.Tested;
 import mockit.integration.junit4.JMockit;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.jychen.vehicle.position.api.domain.VehiclePosition;
 import org.jychen.vehicle.position.api.repository.VehiclePositionRepository;
 import org.jychen.vehicle.position.api.service.VehiclePositionService;
 import org.jychen.vehicle.position.api.service.VehiclePositionServiceImp;
+
+import java.util.UUID;
 
 @RunWith(JMockit.class)
 public class VehiclePositionServiceTest {
@@ -26,7 +27,7 @@ public class VehiclePositionServiceTest {
     @Test
     public void save_WhenInputIsValid_Expect_SaveEntry() {
         VehiclePosition position = new VehiclePosition();
-        position.setId(1);
+        position.setId(UUID.randomUUID());
         position.setVehicleName("first_truck");
 
         new Expectations() {{

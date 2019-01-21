@@ -6,14 +6,15 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Table("vehicle_position")
 public class VehiclePosition {
 
-    @PrimaryKeyColumn(ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-    private Integer id;
+    @Column
+    private UUID id;
 
-    @PrimaryKeyColumn(ordinal = 1, type = PrimaryKeyType.CLUSTERED, name = "vehicle_name")
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, name = "vehicle_name")
     private String vehicleName;
 
     @Column
@@ -22,14 +23,14 @@ public class VehiclePosition {
     @Column
     private Double longitude;
 
-    @Column
-    private Timestamp timestamp;
+    @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED)
+    private Timestamp ts;
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -57,17 +58,17 @@ public class VehiclePosition {
         this.longitude = longitude;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestamp getTs() {
+        return ts;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setTs(Timestamp ts) {
+        this.ts = ts;
     }
 
     @Override
     public String toString() {
-        return String.format("{ @id = %1$s, vehicleName = %2$s, latitude = %3$s, longitude = %4$s, timestamp = %5$s }",
-                getId(), getVehicleName(), getLatitude(), getLongitude(), getTimestamp());
+        return String.format("{ @id = %1$s, vehicleName = %2$s, latitude = %3$s, longitude = %4$s, ts = %5$s }",
+                getId(), getVehicleName(), getLatitude(), getLongitude(), getTs());
     }
 }

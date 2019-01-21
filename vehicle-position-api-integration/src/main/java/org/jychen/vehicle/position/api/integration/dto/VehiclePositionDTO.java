@@ -2,22 +2,23 @@ package org.jychen.vehicle.position.api.integration.dto;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class VehiclePositionDTO implements Serializable {
 
-    private static final long serialVersionUID = 7325441071841728930L;
+    private static final long serialVersionUID = 7972603774835586735L;
 
-    private Integer id;
+    private UUID id;
     private String vehicleName;
     private Double latitude;
     private Double longitude;
-    private Timestamp timestamp;
+    private Timestamp ts;
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -45,11 +46,11 @@ public class VehiclePositionDTO implements Serializable {
         this.longitude = longitude;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestamp getTs() {
+        return ts;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setTs(Timestamp ts) {
+        this.ts = ts;
     }
 }

@@ -13,6 +13,8 @@ import org.jychen.vehicle.position.api.integration.dto.VehiclePositionDTO;
 import org.jychen.vehicle.position.api.messaging.VehiclePositionConsumer;
 import org.jychen.vehicle.position.api.service.VehiclePositionService;
 
+import java.util.UUID;
+
 
 @RunWith(JMockit.class)
 public class VehiclePositionConsumerTests {
@@ -30,7 +32,7 @@ public class VehiclePositionConsumerTests {
     @Test
     public void receiveMessage_WhenInputIsValid_Expects_LogMessage() {
         VehiclePositionDTO dto = new VehiclePositionDTO();
-        dto.setId(1);
+        dto.setId(UUID.randomUUID());
         dto.setVehicleName("city_truck");
         dto.setLatitude(new Double(12.333));
         dto.setLongitude(new Double(12.333));
