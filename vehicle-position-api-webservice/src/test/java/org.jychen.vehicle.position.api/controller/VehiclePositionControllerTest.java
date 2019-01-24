@@ -2,6 +2,8 @@ package controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
+import java.util.Collections;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;
@@ -14,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.jychen.vehicle.position.api.controller.VehiclePositionController;
 import org.jychen.vehicle.position.api.domain.VehiclePosition;
 import org.jychen.vehicle.position.api.integration.dto.VehiclePositionDTO;
+import org.jychen.vehicle.position.api.integration.searchcriteria.VehiclePositionSearchCriteria;
 import org.jychen.vehicle.position.api.service.VehiclePositionService;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(JMockit.class)
 public class VehiclePositionControllerTest {
+
+    private static final String vehicleName = "speeding_truck";
 
     @Tested
     private VehiclePositionController controllerUnderTest = new VehiclePositionController(null);
@@ -53,7 +58,6 @@ public class VehiclePositionControllerTest {
     public void save_When_InputIsValid_Expect_InvokeVehiclePositionServiceSave() throws Exception {
         VehiclePositionDTO vehiclePositionDTO = new VehiclePositionDTO();
         UUID uuid = UUID.randomUUID();
-        String vehicleName = "speeding_truck";
         vehiclePositionDTO.setId(uuid);
         vehiclePositionDTO.setVehicleName(vehicleName);
 
@@ -73,12 +77,11 @@ public class VehiclePositionControllerTest {
     }
 
     @Test
-    public void findByCriteria_When_GetTopRecord_Expect_InvokeGetTopByVehicleNameOrderByTsDescInVehiclePositionService() throws Exception {
-        String vehicleName = "speeding_truck";
+    public void findByCriteria_When_GetTopRecord_Expect_InvokeFindByCriteriaInVehiclePositionService() throws Exception {
 
         new Expectations() {{
-            vehiclePositionService.getTopByVehicleNameOrderByTsDesc(vehicleName);
-            result = getMockVehiclePosition();
+            vehiclePositionService.findByCriteria((VehiclePositionSearchCriteria) any);
+            result = getMockVehiclePosition(vehicleName);
         }};
 
         MvcResult mvcResult = mockMvc.perform(
@@ -88,74 +91,47 @@ public class VehiclePositionControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
+        new Verifications() {{
+            VehiclePositionSearchCriteria searchCriteria;
+            vehiclePositionService.findByCriteria(searchCriteria = withCapture());
+            Assert.assertEquals(vehicleName, searchCriteria.getVehicleName());
+            Assert.assertEquals(Integer.valueOf(1), searchCriteria.getLimit());
+        }};
+
         List<VehiclePositionDTO> actualResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<VehiclePositionDTO>>(){});
         Assert.assertEquals(1, actualResponse.size());
     }
 
     @Test
-    public void findByCriteria_When_GetTopRecordNotFound_Expect_InvokeGetTopByVehicleNameOrderByTsDescInVehiclePositionService() throws Exception {
-        String vehicleName = "speeding_truck";
+    public void findByCriteria_When_FindAllRecordsForGivenVehicle_Expect_InvokeFindByCriteriaInVehiclePositionService() throws Exception {
+        List<VehiclePosition> vehiclePositionList = Arrays.asList(getMockVehiclePosition(vehicleName),getMockVehiclePosition(vehicleName));
 
         new Expectations() {{
-            vehiclePositionService.getTopByVehicleNameOrderByTsDesc(vehicleName);
-            result = null;
+            vehiclePositionService.findByCriteria((VehiclePositionSearchCriteria) any);
+            result = vehiclePositionList;
         }};
 
         MvcResult mvcResult = mockMvc.perform(
                 get(controllerUnderTest.BASE_URL)
-                        .param("vehicleName", vehicleName)
-                        .param("limit", "1"))
+                        .param("vehicleName", vehicleName))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        List<VehiclePositionDTO> actualResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<VehiclePositionDTO>>(){});
-        Assert.assertEquals(0, actualResponse.size());
-    }
-
-//    @Test
-//    public void findByCriteria_When_GetTop2Record_Expect_InvokeGetTopByVehicleNameOrderByTsDescInVehiclePositionService() throws Exception {
-//        String vehicleName = "speeding_truck";
-//        String limit = "2";
-//        List<VehiclePosition> vehiclePositionList = new ArrayList<>();
-//        vehiclePositionList.add(getMockVehiclePosition());
-//        vehiclePositionList.add(getMockVehiclePosition());
-//
-//        new Expectations() {{
-//            vehiclePositionService.findByVehicleNameOrderByTsDesc(vehicleName, limit);
-//            result = vehiclePositionList;
-//        }};
-//
-//        MvcResult mvcResult = mockMvc.perform(
-//                get(controllerUnderTest.BASE_URL)
-//                        .param("vehicleName", vehicleName)
-//                        .param("limit", limit))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        List<VehiclePositionDTO> actualResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<VehiclePositionDTO>>(){});
-//        Assert.assertEquals(2, actualResponse.size());
-//    }
-
-    @Test
-    public void findByCriteria_When_FindAllRecordsForGivenVehicle_Expect_InvokeFindAllByVehicleNameOrderByTsDescInVehiclePositionService() throws Exception {
-        String vehicleName = "speeding_truck";
-
-        mockMvc.perform(
-                get(controllerUnderTest.BASE_URL)
-                        .param("vehicleName", vehicleName))
-                .andExpect(status().isOk());
-
         new Verifications() {{
-            String actualVehicleName;
-            vehiclePositionService.findAllByVehicleNameOrderByTsDesc(actualVehicleName = withCapture());
-            Assert.assertEquals(vehicleName, actualVehicleName);
+            VehiclePositionSearchCriteria searchCriteria;
+            vehiclePositionService.findByCriteria(searchCriteria = withCapture());
+            Assert.assertEquals(vehicleName, searchCriteria.getVehicleName());
+            Assert.assertEquals(Integer.valueOf(500), searchCriteria.getLimit());
         }};
+
+        List<VehiclePositionDTO> actualResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<VehiclePositionDTO>>(){});
+        Assert.assertEquals(2, actualResponse.size());
     }
 
-    private VehiclePosition getMockVehiclePosition() {
+    private VehiclePosition getMockVehiclePosition(String vehicleName) {
         VehiclePosition vehiclePosition = new VehiclePosition();
         vehiclePosition.setId(UUID.randomUUID());
-        vehiclePosition.setVehicleName("speeding_truck");
+        vehiclePosition.setVehicleName(vehicleName);
         vehiclePosition.setTs(new Date());
         return vehiclePosition;
     }

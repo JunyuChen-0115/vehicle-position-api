@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.jychen.vehicle.position.api.domain.VehiclePosition;
 import org.jychen.vehicle.position.api.integration.dto.VehiclePositionDTO;
+import org.jychen.vehicle.position.api.integration.searchcriteria.VehiclePositionSearchCriteria;
 import org.jychen.vehicle.position.api.service.VehiclePositionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,19 +47,9 @@ public class VehiclePositionController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<VehiclePositionDTO> findByCriteria(@RequestParam String vehicleName, @RequestParam(required = false) String limit) {
-        logger.info("Received request to find position records by criteria: vehicleName {}, limit {}", vehicleName, limit);
-        List<VehiclePosition> vehiclePositionList;
-        if (StringUtils.isEmpty(limit)) {
-            vehiclePositionList = vehiclePositionService.findAllByVehicleNameOrderByTsDesc(vehicleName);
-        } else {
-            VehiclePosition vehiclePosition = vehiclePositionService.getTopByVehicleNameOrderByTsDesc(vehicleName);
-            vehiclePositionList = Collections.emptyList();
-            if (vehiclePosition != null) {
-                vehiclePositionList = Collections.singletonList(vehiclePosition);
-            }
-        }
-
+    public List<VehiclePositionDTO> findByCriteria(VehiclePositionSearchCriteria searchCriteria) {
+        logger.info("Received request to find position records by criteria: {}", searchCriteria);
+        List<VehiclePosition> vehiclePositionList = vehiclePositionService.findByCriteria(searchCriteria);
         logger.info("{} number of results are found.", vehiclePositionList.size());
         return objectMapper.convertValue(vehiclePositionList, new TypeReference<List<VehiclePositionDTO>>(){});
     }
