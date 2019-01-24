@@ -1,6 +1,8 @@
 package org.jychen.vehicle.position.api.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.jychen.vehicle.position.api.domain.VehiclePosition;
 import org.jychen.vehicle.position.api.integration.dto.VehiclePositionDTO;
 import org.jychen.vehicle.position.api.service.VehiclePositionService;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping(VehiclePositionController.BASE_URL)
@@ -41,9 +46,20 @@ public class VehiclePositionController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public VehiclePositionDTO findByCriteria(@RequestParam String vehicleName, @RequestParam(defaultValue = "1") String limit) {
+    public List<VehiclePositionDTO> findByCriteria(@RequestParam String vehicleName, @RequestParam(required = false) String limit) {
         logger.info("Received request to find position records by criteria: vehicleName {}, limit {}", vehicleName, limit);
-        VehiclePosition vehiclePosition = vehiclePositionService.getTopByVehicleNameOrderByTsDesc(vehicleName);
-        return objectMapper.convertValue(vehiclePosition, VehiclePositionDTO.class);
+        List<VehiclePosition> vehiclePositionList;
+        if (StringUtils.isEmpty(limit)) {
+            vehiclePositionList = vehiclePositionService.findAllByVehicleNameOrderByTsDesc(vehicleName);
+        } else {
+            VehiclePosition vehiclePosition = vehiclePositionService.getTopByVehicleNameOrderByTsDesc(vehicleName);
+            vehiclePositionList = Collections.emptyList();
+            if (vehiclePosition != null) {
+                vehiclePositionList = Collections.singletonList(vehiclePosition);
+            }
+        }
+
+        logger.info("{} number of results are found.", vehiclePositionList.size());
+        return objectMapper.convertValue(vehiclePositionList, new TypeReference<List<VehiclePositionDTO>>(){});
     }
 }
