@@ -12,7 +12,7 @@ import org.jychen.vehicle.position.api.repository.VehiclePositionRepository;
 import org.jychen.vehicle.position.api.service.VehiclePositionService;
 import org.jychen.vehicle.position.api.service.VehiclePositionServiceImp;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,7 +67,7 @@ public class VehiclePositionServiceTest {
     @Test
     public void findByVehicleNameAndTsGreaterThanEqualOrderByTsDesc_WhenInputIsValid_Expect_FindRecordsForGivenVehicleSinceGivenTime() {
         String vehicleName = "city_truck";
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        Date ts = new Date();
 
         new Expectations() {{
             vehiclePositionRepository.findByVehicleNameAndTsGreaterThanEqualOrderByTsDesc(vehicleName, ts);
@@ -79,7 +79,7 @@ public class VehiclePositionServiceTest {
 
     @Test
     public void findAllByTsGreaterThanEqualOrderByTsDesc_WhenInputIsValid_Expect_FindAllRecordsSinceGivenTime() {
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        Date ts = new Date();
 
         new Expectations() {{
             vehiclePositionRepository.findAllByTsGreaterThanEqualOrderByTsDesc(ts);
