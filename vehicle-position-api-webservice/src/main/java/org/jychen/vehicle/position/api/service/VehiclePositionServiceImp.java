@@ -4,6 +4,7 @@ import com.datastax.driver.core.querybuilder.Clause;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.jychen.vehicle.position.api.constant.Constants;
 import org.jychen.vehicle.position.api.domain.VehiclePosition;
@@ -14,9 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class VehiclePositionServiceImp implements VehiclePositionService {
@@ -37,30 +35,6 @@ public class VehiclePositionServiceImp implements VehiclePositionService {
     public VehiclePosition save(VehiclePosition vehiclePosition) {
         logger.info("Saving vehicle position with id: {} and name: {}", vehiclePosition.getId(), vehiclePosition.getVehicleName());
         return vehiclePositionRepository.save(vehiclePosition);
-    }
-
-    @Override
-    public VehiclePosition getTopByVehicleNameOrderByTsDesc(String vehicleName) {
-        logger.info("Attempting to get the latest position for vehicle {}.", vehicleName);
-        return vehiclePositionRepository.getTopByVehicleNameOrderByTsDesc(vehicleName);
-    }
-
-    @Override
-    public List<VehiclePosition> findAllByVehicleNameOrderByTsDesc(String vehicleName) {
-        logger.info("Attempting to find all position records for vehicle {}.", vehicleName);
-        return vehiclePositionRepository.findAllByVehicleNameOrderByTsDesc(vehicleName);
-    }
-
-    @Override
-    public List<VehiclePosition> findByVehicleNameAndTsGreaterThanEqualOrderByTsDesc(String vehicleName, Date ts) {
-        logger.info("Attempting to find position records for vehicle {} since {}.", vehicleName, ts);
-        return vehiclePositionRepository.findByVehicleNameAndTsGreaterThanEqualOrderByTsDesc(vehicleName, ts);
-    }
-
-    @Override
-    public List<VehiclePosition> findAllByTsGreaterThanEqualOrderByTsDesc(Date ts) {
-        logger.info("Attempting to find all position records for all vehicle since {}.", ts);
-        return vehiclePositionRepository.findAllByTsGreaterThanEqualOrderByTsDesc(ts);
     }
 
     @Override

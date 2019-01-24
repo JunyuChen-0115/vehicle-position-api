@@ -11,7 +11,6 @@ import org.springframework.data.cassandra.core.mapping.CassandraMappingContext;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
 @Configuration
-@EnableCassandraRepositories(basePackages = "org.jychen.vehicle.position.api.repository")
 public class CassandraConfig extends AbstractCassandraConfiguration {
 
     @Value("${spring.cassandra.keyspace}")
