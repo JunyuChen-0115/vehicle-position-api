@@ -84,7 +84,6 @@ public class VehiclePositionServiceImp implements VehiclePositionService {
             selectQuery.where(clause);
         }
 
-        selectQuery.orderBy(QueryBuilder.desc(Constants.COLUMN_NAME_TIMESTAMP));
         if (searchCriteria.getLimit() != null) {
             selectQuery.limit(searchCriteria.getLimit());
         }
