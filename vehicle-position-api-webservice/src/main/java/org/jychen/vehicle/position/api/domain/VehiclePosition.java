@@ -1,5 +1,7 @@
 package org.jychen.vehicle.position.api.domain;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jychen.vehicle.position.api.constant.Constants;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
@@ -8,13 +10,13 @@ import org.springframework.data.cassandra.core.mapping.Table;
 import java.util.Date;
 import java.util.UUID;
 
-@Table("vehicle_position")
+@Table(value = Constants.TABLE_NAME)
 public class VehiclePosition {
 
     @Column
     private UUID id;
 
-    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, name = "vehicle_name")
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, name = Constants.COLUMN_NAME_VEHICLE_NAME)
     private String vehicleName;
 
     @Column
@@ -68,7 +70,6 @@ public class VehiclePosition {
 
     @Override
     public String toString() {
-        return String.format("{ @id = %1$s, vehicleName = %2$s, latitude = %3$s, longitude = %4$s, ts = %5$s }",
-                getId(), getVehicleName(), getLatitude(), getLongitude(), getTs());
+        return ToStringBuilder.reflectionToString(this);
     }
 }

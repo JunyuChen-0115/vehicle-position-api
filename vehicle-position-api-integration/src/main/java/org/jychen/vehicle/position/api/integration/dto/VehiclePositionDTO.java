@@ -3,6 +3,7 @@ package org.jychen.vehicle.position.api.integration.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class VehiclePositionDTO implements Serializable {
 
@@ -52,5 +53,10 @@ public class VehiclePositionDTO implements Serializable {
 
     public void setTs(Date ts) {
         this.ts = ts;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
