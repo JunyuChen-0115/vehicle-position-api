@@ -41,7 +41,7 @@ public class VehiclePositionController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public VehiclePositionDTO findByCriteria(@RequestParam String vehicleName, @RequestParam String limit) {
+    public VehiclePositionDTO findByCriteria(@RequestParam String vehicleName, @RequestParam(defaultValue = "1") String limit) {
         logger.info("Received request to find position records by criteria: vehicleName {}, limit {}", vehicleName, limit);
         VehiclePosition vehiclePosition = vehiclePositionService.getTopByVehicleNameOrderByTsDesc(vehicleName);
         return objectMapper.convertValue(vehiclePosition, VehiclePositionDTO.class);

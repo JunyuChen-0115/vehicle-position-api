@@ -5,7 +5,7 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 @Table("vehicle_position")
@@ -24,7 +24,7 @@ public class VehiclePosition {
     private Double longitude;
 
     @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED)
-    private Timestamp ts;
+    private Date ts;
 
     public UUID getId() {
         return id;
@@ -58,11 +58,11 @@ public class VehiclePosition {
         this.longitude = longitude;
     }
 
-    public Timestamp getTs() {
+    public Date getTs() {
         return ts;
     }
 
-    public void setTs(Timestamp ts) {
+    public void setTs(Date ts) {
         this.ts = ts;
     }
 

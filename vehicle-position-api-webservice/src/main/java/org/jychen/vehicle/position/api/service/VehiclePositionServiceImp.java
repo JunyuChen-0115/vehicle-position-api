@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -41,13 +41,13 @@ public class VehiclePositionServiceImp implements VehiclePositionService {
     }
 
     @Override
-    public List<VehiclePosition> findByVehicleNameAndTsGreaterThanEqualOrderByTsDesc(String vehicleName, Timestamp ts) {
+    public List<VehiclePosition> findByVehicleNameAndTsGreaterThanEqualOrderByTsDesc(String vehicleName, Date ts) {
         logger.info("Attempting to find position records for vehicle {} since {}.", vehicleName, ts);
         return vehiclePositionRepository.findByVehicleNameAndTsGreaterThanEqualOrderByTsDesc(vehicleName, ts);
     }
 
     @Override
-    public List<VehiclePosition> findAllByTsGreaterThanEqualOrderByTsDesc(Timestamp ts) {
+    public List<VehiclePosition> findAllByTsGreaterThanEqualOrderByTsDesc(Date ts) {
         logger.info("Attempting to find all position records for all vehicle since {}.", ts);
         return vehiclePositionRepository.findAllByTsGreaterThanEqualOrderByTsDesc(ts);
     }

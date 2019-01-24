@@ -1,7 +1,7 @@
 package org.jychen.vehicle.position.api.integration.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 public class VehiclePositionDTO implements Serializable {
@@ -12,7 +12,7 @@ public class VehiclePositionDTO implements Serializable {
     private String vehicleName;
     private Double latitude;
     private Double longitude;
-    private Timestamp ts;
+    private Date ts;
 
     public UUID getId() {
         return id;
@@ -46,11 +46,11 @@ public class VehiclePositionDTO implements Serializable {
         this.longitude = longitude;
     }
 
-    public Timestamp getTs() {
+    public Date getTs() {
         return ts;
     }
 
-    public void setTs(Timestamp ts) {
+    public void setTs(Date ts) {
         this.ts = ts;
     }
 }
