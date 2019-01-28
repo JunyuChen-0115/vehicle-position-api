@@ -51,7 +51,7 @@ public class VehiclePositionServiceTest {
 
         VehiclePositionSearchCriteria searchRequest = new VehiclePositionSearchCriteria();
         searchRequest.setVehicleName(VEHICLE_NAME);
-        searchRequest.setTs(new Date());
+        searchRequest.setTs(System.currentTimeMillis());
         searchRequest.setLimit(3);
 
         new Expectations() {{

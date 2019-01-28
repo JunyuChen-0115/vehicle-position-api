@@ -10,8 +10,8 @@ public class VehiclePositionSearchCriteria {
     private static final int MAX_RESULT_SIZE = 500;
     private UUID id;
     private String vehicleName;
-    @DateTimeFormat(iso = ISO.DATE_TIME)
-    private Date ts;
+    //@DateTimeFormat(iso = ISO.DATE_TIME)
+    private Long ts;
     private Integer limit = MAX_RESULT_SIZE;
 
     public UUID getId() {
@@ -30,11 +30,11 @@ public class VehiclePositionSearchCriteria {
         this.vehicleName = vehicleName;
     }
 
-    public Date getTs() {
+    public Long getTs() {
         return ts;
     }
 
-    public void setTs(Date ts) {
+    public void setTs(Long ts) {
         this.ts = ts;
     }
 
