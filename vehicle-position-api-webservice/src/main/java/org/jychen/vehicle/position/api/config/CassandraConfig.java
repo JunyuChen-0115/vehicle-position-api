@@ -29,7 +29,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 
     @Override
     public String[] getEntityBasePackages() {
-        return new String[] {VehiclePosition.class.getPackage().getName()};
+        return new String[]{VehiclePosition.class.getPackage().getName()};
     }
 
     @Bean

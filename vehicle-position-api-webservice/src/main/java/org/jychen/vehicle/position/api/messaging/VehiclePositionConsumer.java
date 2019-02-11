@@ -27,7 +27,8 @@ public class VehiclePositionConsumer {
 
     @KafkaListener(topics = "first-topic", groupId = "one")
     public void receiveMessage(VehiclePositionDTO vehiclePositionDTO) {
-        logger.info("Received message: id: {}, name: {}", vehiclePositionDTO.getId(), vehiclePositionDTO.getVehicleName());
+        logger.info("Received message: id: {}, name: {}", vehiclePositionDTO.getId(),
+                vehiclePositionDTO.getVehicleName());
         VehiclePosition vehiclePosition = objectMapper.convertValue(vehiclePositionDTO, VehiclePosition.class);
         vehiclePositionService.save(vehiclePosition);
     }

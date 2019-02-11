@@ -9,4 +9,5 @@ import org.springframework.context.annotation.Configuration;
         "org.jychen.vehicle.position.api.service",
         "org.jychen.vehicle.position.api.controller"})
 public class CoreConfig {
+
 }

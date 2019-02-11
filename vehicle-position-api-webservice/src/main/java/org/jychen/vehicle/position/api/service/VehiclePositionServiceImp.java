@@ -26,14 +26,16 @@ public class VehiclePositionServiceImp implements VehiclePositionService {
     private CassandraTemplate cassandraTemplate;
 
     @Autowired
-    public VehiclePositionServiceImp(VehiclePositionRepository vehiclePositionRepository, CassandraTemplate cassandraTemplate) {
+    public VehiclePositionServiceImp(VehiclePositionRepository vehiclePositionRepository,
+            CassandraTemplate cassandraTemplate) {
         this.vehiclePositionRepository = vehiclePositionRepository;
         this.cassandraTemplate = cassandraTemplate;
     }
 
     @Override
     public VehiclePosition save(VehiclePosition vehiclePosition) {
-        logger.info("Saving vehicle position with id: {} and name: {}", vehiclePosition.getId(), vehiclePosition.getVehicleName());
+        logger.info("Saving vehicle position with id: {} and name: {}", vehiclePosition.getId(),
+                vehiclePosition.getVehicleName());
         return vehiclePositionRepository.save(vehiclePosition);
     }
 

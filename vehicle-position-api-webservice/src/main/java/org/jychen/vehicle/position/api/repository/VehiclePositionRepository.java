@@ -9,8 +9,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VehiclePositionRepository extends CassandraRepository<VehiclePosition, UUID> {
+
     VehiclePosition getTopByVehicleNameOrderByTsDesc(String vehicleName);
+
     List<VehiclePosition> findAllByVehicleNameOrderByTsDesc(String vehicleName);
+
     List<VehiclePosition> findByVehicleNameAndTsGreaterThanEqualOrderByTsDesc(String vehicleName, Date ts);
+
     List<VehiclePosition> findAllByTsGreaterThanEqualOrderByTsDesc(Date ts);
 }

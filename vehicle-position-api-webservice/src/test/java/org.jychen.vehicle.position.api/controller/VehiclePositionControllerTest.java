@@ -63,8 +63,8 @@ public class VehiclePositionControllerTest {
 
         mockMvc.perform(
                 post(controllerUnderTest.BASE_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(vehiclePositionDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(vehiclePositionDTO)))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -77,7 +77,8 @@ public class VehiclePositionControllerTest {
     }
 
     @Test
-    public void findByCriteria_When_GetTopRecord_Expect_InvokeFindByCriteriaInVehiclePositionService() throws Exception {
+    public void findByCriteria_When_GetTopRecord_Expect_InvokeFindByCriteriaInVehiclePositionService()
+            throws Exception {
 
         new Expectations() {{
             vehiclePositionService.findByCriteria((VehiclePositionSearchCriteria) any);
@@ -86,8 +87,8 @@ public class VehiclePositionControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(
                 get(controllerUnderTest.BASE_URL)
-                .param("vehicleName", vehicleName)
-                .param("limit", "1"))
+                        .param("vehicleName", vehicleName)
+                        .param("limit", "1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -98,13 +99,17 @@ public class VehiclePositionControllerTest {
             Assert.assertEquals(Integer.valueOf(1), searchCriteria.getLimit());
         }};
 
-        List<VehiclePositionDTO> actualResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<VehiclePositionDTO>>(){});
+        List<VehiclePositionDTO> actualResponse = mapper
+                .readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<VehiclePositionDTO>>() {
+                });
         Assert.assertEquals(1, actualResponse.size());
     }
 
     @Test
-    public void findByCriteria_When_FindAllRecordsForGivenVehicle_Expect_InvokeFindByCriteriaInVehiclePositionService() throws Exception {
-        List<VehiclePosition> vehiclePositionList = Arrays.asList(getMockVehiclePosition(vehicleName),getMockVehiclePosition(vehicleName));
+    public void findByCriteria_When_FindAllRecordsForGivenVehicle_Expect_InvokeFindByCriteriaInVehiclePositionService()
+            throws Exception {
+        List<VehiclePosition> vehiclePositionList = Arrays
+                .asList(getMockVehiclePosition(vehicleName), getMockVehiclePosition(vehicleName));
 
         new Expectations() {{
             vehiclePositionService.findByCriteria((VehiclePositionSearchCriteria) any);
@@ -124,7 +129,9 @@ public class VehiclePositionControllerTest {
             Assert.assertEquals(Integer.valueOf(500), searchCriteria.getLimit());
         }};
 
-        List<VehiclePositionDTO> actualResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<VehiclePositionDTO>>(){});
+        List<VehiclePositionDTO> actualResponse = mapper
+                .readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<VehiclePositionDTO>>() {
+                });
         Assert.assertEquals(2, actualResponse.size());
     }
 

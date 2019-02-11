@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 public class VehiclePositionSearchCriteria {
+
     private static final int MAX_RESULT_SIZE = 500;
     private UUID id;
     private String vehicleName;

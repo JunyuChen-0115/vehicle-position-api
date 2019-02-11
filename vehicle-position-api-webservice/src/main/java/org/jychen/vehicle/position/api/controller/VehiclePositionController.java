@@ -40,7 +40,8 @@ public class VehiclePositionController {
 
     @RequestMapping(method = RequestMethod.POST)
     public VehiclePositionDTO save(@RequestBody VehiclePositionDTO vehiclePositionDTO) {
-        logger.info("Received request to save position record. id: {}, vehicleName: {}", vehiclePositionDTO.getId(), vehiclePositionDTO.getVehicleName());
+        logger.info("Received request to save position record. id: {}, vehicleName: {}", vehiclePositionDTO.getId(),
+                vehiclePositionDTO.getVehicleName());
         VehiclePosition vehiclePosition = objectMapper.convertValue(vehiclePositionDTO, VehiclePosition.class);
         VehiclePosition savedEntity = vehiclePositionService.save(vehiclePosition);
         return objectMapper.convertValue(savedEntity, VehiclePositionDTO.class);
@@ -51,6 +52,7 @@ public class VehiclePositionController {
         logger.info("Received request to find position records by criteria: {}", searchCriteria);
         List<VehiclePosition> vehiclePositionList = vehiclePositionService.findByCriteria(searchCriteria);
         logger.info("{} number of results are found.", vehiclePositionList.size());
-        return objectMapper.convertValue(vehiclePositionList, new TypeReference<List<VehiclePositionDTO>>(){});
+        return objectMapper.convertValue(vehiclePositionList, new TypeReference<List<VehiclePositionDTO>>() {
+        });
     }
 }
