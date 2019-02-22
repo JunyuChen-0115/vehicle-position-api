@@ -23,24 +23,22 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>docker-resources</id>
                         <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/build</outputDirectory>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/docker</directory>
-                                    <filtering>true</filtering>
                                 </resource>
                                 <resource>
                                     <directory>${deployable.target.directory}</directory>
                                     <includes>
                                         <include>${deployable.target.file}</include>
                                     </includes>
-                                    <filtering>true</filtering>
                                 </resource>
                             </resources>
                         </configuration>
@@ -50,7 +48,7 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.9</version>
+                <version>1.4.10</version>
                 <executions>
                     <execution>
                         <id>default</id>
@@ -61,12 +59,24 @@
                 </executions>
                 <configuration>
                     <repository>org/jychen</repository>
-                    <contextDirectory>${project.basedir}/target/build</contextDirectory>
+                    <contextDirectory>${project.basedir}/target/classes</contextDirectory>
+                    <skipDockerInfo>true</skipDockerInfo>
                     <tag>${project.version}</tag>
                     <buildArgs>
                         <JAR_FILE>${deployable.target.file}</JAR_FILE>
                     </buildArgs>
                 </configuration>
+            </plugin>
+            <!-- disable the default-jar for the docker module -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
