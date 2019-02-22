@@ -90,6 +90,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>org.jychen.vehicle.position.api.VehiclePositionApiApplication</mainClass>
+                    <finalName>${project.parent.artifactId}</finalName>
                 </configuration>
                 <executions>
                     <execution>
