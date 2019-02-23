@@ -46,6 +46,22 @@ services:
     networks:
     - vehicle-position-default
 
+  vehicle-position-api:
+    image: org/jychen:0.0.1-SNAPSHOT
+    hostname: vehicle-position-api
+    ports:
+    - "28080:28080"
+    networks:
+    - vehicle-position-default
+
+  prune:
+    image: docker
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DELAY=1d
+    command: ['sh', '-c', 'while true; do sleep 86400; docker system prune --all --force; echo "Finished system prune"; done']
+
 networks:
   vehicle-position-default:
     name: vehicle-position-default
