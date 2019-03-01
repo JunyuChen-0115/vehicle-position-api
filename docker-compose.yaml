@@ -45,6 +45,7 @@ services:
       CASSANDRA_TRANSPORT_PORT_NUMBER: 7000
     networks:
     - vehicle-position-default
+    # DDL: CREATE TABLE vehicle_position ( id uuid, vehicle_name varchar, latitude double, longitude double, ts timestamp, PRIMARY KEY(vehicle_name, ts));
 
   vehicle-position-api:
     image: org/jychen:0.0.1-SNAPSHOT
@@ -53,6 +54,9 @@ services:
     - "28080:28080"
     networks:
     - vehicle-position-default
+    depends_on:
+      - cassandra1
+      - kafka1
 
   prune:
     image: docker
