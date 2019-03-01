@@ -1,6 +1,13 @@
 version: '2.1'
 
 services:
+  base:
+    image: busybox
+    depends_on:
+      - zoo1
+      - kafka1
+      - cassandra1
+
   zoo1:
     image: zookeeper:3.4.9
     hostname: zoo1
@@ -45,7 +52,8 @@ services:
       CASSANDRA_TRANSPORT_PORT_NUMBER: 7000
     networks:
     - vehicle-position-default
-    # DDL: CREATE TABLE vehicle_position ( id uuid, vehicle_name varchar, latitude double, longitude double, ts timestamp, PRIMARY KEY(vehicle_name, ts));
+    # keyspace: CREATE KEYSPACE tutorial WITH replication = {'class': 'SimpleStrategy', 'replication_factor':'2'};
+    # table: CREATE TABLE tutorial.vehicle_position ( id uuid, vehicle_name varchar, latitude double, longitude double, ts timestamp, PRIMARY KEY(vehicle_name, ts));
 
   vehicle-position-api:
     image: org/jychen:0.0.1-SNAPSHOT
