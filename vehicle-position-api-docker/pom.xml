@@ -14,6 +14,8 @@
     <properties>
         <deployable.target.directory>${project.parent.basedir}/${project.parent.artifactId}-webservice/target</deployable.target.directory>
         <deployable.target.file>${project.parent.artifactId}.jar</deployable.target.file>
+        <maven.install.skip>true</maven.install.skip>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <build>
