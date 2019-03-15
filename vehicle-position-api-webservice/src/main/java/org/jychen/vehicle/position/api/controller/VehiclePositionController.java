@@ -2,7 +2,7 @@ package org.jychen.vehicle.position.api.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
+import java.util.List;
 import org.jychen.vehicle.position.api.domain.VehiclePosition;
 import org.jychen.vehicle.position.api.integration.dto.VehiclePositionDTO;
 import org.jychen.vehicle.position.api.integration.searchcriteria.VehiclePositionSearchCriteria;
@@ -10,15 +10,11 @@ import org.jychen.vehicle.position.api.service.VehiclePositionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
-import java.util.List;
 
 @RestController
 @RequestMapping(VehiclePositionController.BASE_URL)
@@ -38,7 +34,7 @@ public class VehiclePositionController {
         objectMapper = new ObjectMapper();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public VehiclePositionDTO save(@RequestBody VehiclePositionDTO vehiclePositionDTO) {
         logger.info("Received request to save position record. id: {}, vehicleName: {}", vehiclePositionDTO.getId(),
                 vehiclePositionDTO.getVehicleName());
@@ -47,7 +43,7 @@ public class VehiclePositionController {
         return objectMapper.convertValue(savedEntity, VehiclePositionDTO.class);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VehiclePositionDTO> findByCriteria(VehiclePositionSearchCriteria searchCriteria) {
         logger.info("Received request to find position records by criteria: {}", searchCriteria);
         List<VehiclePosition> vehiclePositionList = vehiclePositionService.findByCriteria(searchCriteria);
