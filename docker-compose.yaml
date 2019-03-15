@@ -1,6 +1,13 @@
 version: '2.1'
 
 services:
+  base:
+    image: busybox
+    depends_on:
+      - zoo1
+      - kafka1
+      - cassandra1
+
   zoo1:
     image: zookeeper:3.4.9
     hostname: zoo1
@@ -45,6 +52,27 @@ services:
       CASSANDRA_TRANSPORT_PORT_NUMBER: 7000
     networks:
     - vehicle-position-default
+    # keyspace: CREATE KEYSPACE tutorial WITH replication = {'class': 'SimpleStrategy', 'replication_factor':'2'};
+    # table: CREATE TABLE tutorial.vehicle_position ( id uuid, vehicle_name varchar, latitude double, longitude double, ts timestamp, PRIMARY KEY(vehicle_name, ts));
+
+  vehicle-position-api:
+    image: org/jychen:0.0.1-SNAPSHOT
+    hostname: vehicle-position-api
+    ports:
+    - "28090:28090"
+    networks:
+    - vehicle-position-default
+    depends_on:
+      - cassandra1
+      - kafka1
+
+  prune:
+    image: docker
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DELAY=1d
+    command: ['sh', '-c', 'while true; do sleep 86400; docker system prune --all --force; echo "Finished system prune"; done']
 
 networks:
   vehicle-position-default:

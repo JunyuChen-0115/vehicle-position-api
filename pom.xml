@@ -7,6 +7,7 @@
     <modules>
         <module>vehicle-position-api-integration</module>
         <module>vehicle-position-api-webservice</module>
+        <module>vehicle-position-api-docker</module>
     </modules>
 
     <parent>
