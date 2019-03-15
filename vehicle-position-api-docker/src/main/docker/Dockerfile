@@ -6,7 +6,7 @@ RUN echo 'Copying jar'
 ARG JAR_FILE
 COPY ${JAR_FILE} /app.jar
 
-ENV SPRING_PROFILES_ACTIVE=docker
+ENV SPRING_PROFILES_ACTIVE=docker,dev
 
 EXPOSE  8080 8000
 

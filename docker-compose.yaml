@@ -59,7 +59,7 @@ services:
     image: org/jychen:0.0.1-SNAPSHOT
     hostname: vehicle-position-api
     ports:
-    - "28080:28080"
+    - "28090:28090"
     networks:
     - vehicle-position-default
     depends_on:
